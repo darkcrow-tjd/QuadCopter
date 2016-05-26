@@ -1,9 +1,9 @@
 %%
 function serialPort = initialSerial(port)
-    serialPort = serial('COM18');
+    serialPort = serial(port);
     set(serialPort, 'BaudRate', 115200, 'DataBits', 8, 'StopBits', 1, 'Parity', 'none', 'FlowControl', 'none');
     serialPort.BytesAvailableFcnMode = 'terminator';
-    serialPort.BytesAvailableFcn = {@callback};
+    serialPort.BytesAvailableFcn = {@updateSerial};
     try
         fopen(serialPort);
     catch
@@ -12,10 +12,10 @@ function serialPort = initialSerial(port)
 
     global ANGLE;
     ANGLE = [0 0 0];
-    while(1)
-        drawModel(ANGLE);
-        pause(0.03);
-    end
+%    while(1)
+%        drawModel(ANGLE);
+%        pause(0.03);
+%    end
 
     fclose(serialPort);
     delete(serialPort);
